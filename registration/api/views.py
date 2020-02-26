@@ -1,9 +1,11 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from registration.api import serializers
-from rest_framework.authtoken.models import Token
 from registration import models
 from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
 
 
 @api_view(['POST',])
@@ -46,5 +48,8 @@ def player_login(request):
 			user = authenticate(username=serializer.data['username'], password=serializer.data['password'])
 			if not user:
 				return Response({'error': 'Invalid credentials'})
-			token = Token.objects.get(user=user)
-			return Response(token.key)
+			refresh = RefreshToken.for_user(user)
+			return Response({
+				        'refresh': str(refresh),
+						'access': str(refresh.access_token),
+    						})
