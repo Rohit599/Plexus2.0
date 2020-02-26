@@ -38,9 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # TokenAuth
-    'rest_framework.authtoken',
-
     # Apps
     'registration'
 ]
@@ -74,6 +71,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'plexusDjango.wsgi.application'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
 
 
 # Database
