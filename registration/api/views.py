@@ -6,8 +6,6 @@ from registration import models
 from django.contrib.auth import authenticate
 
 
-
-
 @api_view(['POST',])
 def player_registration_view(request):
 
