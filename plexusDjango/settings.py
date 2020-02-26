@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'plexus.urls'
+ROOT_URLCONF = 'plexusDjango.urls'
 
 TEMPLATES = [
     {
@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'plexus.wsgi.application'
+WSGI_APPLICATION = 'plexusDjango.wsgi.application'
 
 
 # Database
