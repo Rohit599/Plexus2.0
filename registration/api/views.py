@@ -1,28 +1,25 @@
-from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from registration.api import serializers
+from rest_framework.authtoken.models import Token
+from registration import models
+from django.contrib.auth import authenticate
 
-from registration.api.serializers import PlayerRegistrationSerializer, SocietyRegistrationSerializer
+
+
 
 @api_view(['POST',])
 def player_registration_view(request):
 
 	if request.method == 'POST':
 
-		serializer = PlayerRegistrationSerializer(data=request.data)
-		data = {}
-		if serializer.is_valid():
-			Player = serializer.save()
-			data['response'] = "Registration Successful"
-			data['name'] = Player.name
-			data['email'] = Player.email
-			data['admissionNo'] = Player.admissionNo
-			data['contact'] = Player.contact
-			data['college'] = Player.college
-			data['password'] = Player.password
-		else:
-			data = serializer.errors
-		return Response(data)
+		serializer = serializers.PlayerRegistrationSerializer(data=request.data)
+		if serializer.is_valid(raise_exception=ValueError):
+			serializer.create(validated_data=request.data)
+			return Response(serializer.data)
+		return Response(serializer.error_messages)
+
+
 
 
 @api_view(['POST',])
@@ -30,16 +27,26 @@ def society_registration_view(request):
 
 	if request.method == 'POST':
 
-		serializer = SocietyRegistrationSerializer(data=request.data)
-		data = {}
+		serializer = serializers.SocietyRegistrationSerializer(data=request.data)
+		if serializer.is_valid(raise_exception=ValueError):
+			serializer.create(validated_data=request.data)
+			return Response(serializer.data)
+		return Response(serializer.error_messages)
+
+
+@api_view(['POST',])
+def player_login(request):
+
+	if request.method == 'POST':
+
+		serializer = serializers.UserLoginSerializer(data=request.data)
 		if serializer.is_valid():
-			Society = serializer.save()
-			data['response'] = "Registration Successful"
-			data['username'] = Society.username
-			data['name'] = Society.name
-			data['email'] = Society.email
-			data['description'] = Society.description
-			data['password'] = Society.password
-		else:
-			data = serializer.errors
-		return Response(data)
+			if serializer.data['table'] == 0:
+				table = models.player 
+			else:
+				table = models.society
+			user = authenticate(username=serializer.data['username'], password=serializer.data['password'])
+			if not user:
+				return Response({'error': 'Invalid credentials'})
+			token = Token.objects.get(user=user)
+			return Response(token.key)

@@ -1,70 +1,90 @@
 from rest_framework import serializers
-from registration.models  import player, society
+from registration.models  import player, society, User
+from rest_framework.authtoken.models import Token
+
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = User
+		fields = ['username',
+				  'password',
+				  ]
+
 
 class PlayerRegistrationSerializer(serializers.ModelSerializer):
-	password2 = serializers.CharField(style={'input_style':'password'}, write_only=True)
+	user = UserSerializer(required=True)
 
 	class Meta:
 		model = player
-		fields = ['name', 
-				  'email', 
+		fields = ['user',
+				  'name',  
+				  'email',
 				  'admissionNo', 
 				  'contact', 
 				  'college', 
-				  'password', 
-				  'password2']
+				  ]
 
-		extra_kwargs = {
-				'password': {'write_only':True}
-		}
 
-	def save(self):
-		Player = player(
-					name=self.validated_data['name'],
-					email=self.validated_data['email'],
-					admissionNo=self.validated_data['admissionNo'],
-					contact=self.validated_data['contact'],
-					password=self.validated_data['password'],
-					college=self.validated_data['college'],
-				)
-		password=self.validated_data['password']
-		password2=self.validated_data['password2']
-
-		if password != password2:
-			raise serializers.ValidationError({'password':'Passwords must match'})
+	def create(self, validated_data):
+		user_data = validated_data.pop('user')
+		user_obj = User.objects.create_user(**user_data)
+		Player, created = player.objects.update_or_create(
+								user=user_obj,
+								name=validated_data.pop('name'),
+								email=validated_data.pop('email'),
+								admissionNo=validated_data.pop('admissionNo'),
+								contact=validated_data.pop('contact'),
+								college=validated_data.pop('college'),
+								)
+		token = Token.objects.create(user=user_obj)
 		Player.save()
-		return Player
+		return player
 
 
 
 class SocietyRegistrationSerializer(serializers.ModelSerializer):
-	password2 = serializers.CharField(style={'input_style':'password'}, write_only=True)
+	user = UserSerializer(required=True)
 
 	class Meta:
 		model = society
-		fields = ['username', 
-				  'name', 
+		fields = ['name',
 				  'email', 
-				  'description', 
-				  'password', 
-				  'password2']
+				  'user',
+				  'description',
+				  ]
+
+
+	def create(self, validated_data):
+		user_data = validated_data.pop('user')
+		user_obj = User.objects.create_user(**user_data)
+		Society, created = society.objects.update_or_create(
+								user=user_obj,
+								name=validated_data.pop('name'),
+								email=validated_data.pop('email'),
+								description=validated_data.pop('description')
+								)
+		token = Token.objects.create(user=user_obj)
+		Society.save()
+		return Society
+
+
+
+class UserLoginSerializer(serializers.ModelSerializer):
+	table = serializers.IntegerField()
+	username = serializers.CharField()
+	password = serializers.CharField(max_length=20)
+
+	class Meta:
+		model = User
+		fields = ['table',
+				  'username',
+				  'password',
+			]
 				  
 		extra_kwargs = {
 				'password': {'write_only':True}
 		}
 
-	def save(self):
-		Society = society(
-					username=self.validated_data['username'],
-					name=self.validated_data['name'],
-					email=self.validated_data['email'],
-					description=self.validated_data['description'],
-					password=self.validated_data['password'],
-				)
-		password=self.validated_data['password']
-		password2=self.validated_data['password2']
 
-		if password != password2:
-			raise serializers.ValidationError({'password':'Passwords must match'})
-		Society.save()
-		return Society
