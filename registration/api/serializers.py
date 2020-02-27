@@ -6,9 +6,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = User
-		fields = ['username',
-				  'password',
-				  ]
+		fields = ['username','password',]
 
 
 class PlayerRegistrationSerializer(serializers.ModelSerializer):
@@ -16,14 +14,7 @@ class PlayerRegistrationSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = player
-		fields = ['user',
-				  'name',  
-				  'email',
-				  'admissionNo', 
-				  'contact', 
-				  'college', 
-				  ]
-
+		fields = ['user','name','email','admissionNo','contact','college']
 
 	def create(self, validated_data):
 		user_data = validated_data.pop('user')
@@ -39,11 +30,7 @@ class SocietyRegistrationSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = society
-		fields = ['name',
-				  'email', 
-				  'user',
-				  'description',
-				  ]
+		fields = ['name','email','user','description',]
 
 
 	def create(self, validated_data):
@@ -62,10 +49,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = User
-		fields = ['table',
-				  'username',
-				  'password',
-			]
+		fields = ['table','username','password',]
 				  
 		extra_kwargs = {
 				'password': {'write_only':True}
