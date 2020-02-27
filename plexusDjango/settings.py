@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Apps
-    'registration'
+    'registration',
+
+    # Rest Framework
+    'rest_framework',
+
 ]
 
 MIDDLEWARE = [
