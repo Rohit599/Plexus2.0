@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # Apps
     'registration',
+    'events',
 
     # Rest Framework
     'rest_framework',

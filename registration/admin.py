@@ -1,8 +1,9 @@
 from django.contrib import admin
-from registration import models 
+from registration.models import player, society 
+from events.models import Event
 
 
 # Register your models here.
 
-admin.site.register(models.player)
-admin.site.register(models.society)
+admin.site.register(player)
+admin.site.register(society)
