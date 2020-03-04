@@ -15,7 +15,7 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
 
     def get_queryset(self):
-        return self.request.user.events.all()
+        return Event.objects.all()
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
@@ -27,7 +27,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
     serializer_class = QuestionSerializer
 
     def get_queryset(self):
-        return self.request.user.question.all()
+        return Question.objects.all()
 
 
 class AnswerViewSet(viewsets.ModelViewSet):
@@ -39,7 +39,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
     serializer_class = AnswerSerializer
 
     def get_queryset(self):
-        return self.request.user.answer.all()
+        return Answers.objects.all()
 
 
 class ScoreViewSet(viewsets.ModelViewSet):
@@ -51,7 +51,7 @@ class ScoreViewSet(viewsets.ModelViewSet):
     serializer_class = ScoreSerializer
 
     def get_queryset(self):
-        return self.request.user.score.all()
+        return Score.objects.all()
 
 
 class RuleViewSet(viewsets.ModelViewSet):
@@ -63,4 +63,4 @@ class RuleViewSet(viewsets.ModelViewSet):
     serializer_class = RuleSerializer
 
     def get_queryset(self):
-        return self.request.user.rule.all()
+        return Rule.objects.all()
