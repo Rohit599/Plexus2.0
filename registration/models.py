@@ -17,6 +17,11 @@ class player(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	# avatar = models.ImageField(upload_to='avatars', blank='True')   # optional for the user
+	class Meta:
+		verbose_name_plural = "players"
+
+	def __str__(self):
+		return "%s" % (self.name)
 
 class society(models.Model):
 
@@ -28,3 +33,10 @@ class society(models.Model):
 	description = models.TextField()
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
+
+
+	class Meta:
+		verbose_name_plural = "societies"
+	
+	def __str__(self):
+		return "%s" % (self.name)
