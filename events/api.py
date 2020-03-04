@@ -5,6 +5,7 @@ from registration.models import society
 from .models import Event, Question, Answers, Score, Rule
 from .serializers import QuestionSerializer, AnswerSerializer, ScoreSerializer, RuleSerializer
 
+
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     permission_classes = [
@@ -15,6 +16,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.request.user.events.all()
+
 
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
@@ -27,6 +29,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return self.request.user.question.all()
 
+
 class AnswerViewSet(viewsets.ModelViewSet):
     queryset = Answers.objects.all()
     permission_classes = [
@@ -38,6 +41,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return self.request.user.answer.all()
 
+
 class ScoreViewSet(viewsets.ModelViewSet):
     queryset = Score.objects.all()
     permission_classes = [
@@ -48,6 +52,7 @@ class ScoreViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.request.user.score.all()
+
 
 class RuleViewSet(viewsets.ModelViewSet):
     queryset = Rule.objects.all()
