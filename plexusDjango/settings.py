@@ -14,14 +14,14 @@ SECRET_KEY = 'qocndj5hh46yq@x!=a*gkw+bt!_94%dkkw)pygg+im$(!(x1a2'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["https://ncs-plexus.herokuapp.com/", "http://127.0.0.1:8000" ]
+ALLOWED_HOSTS = ["https://ncs-plexus.herokuapp.com", "http://127.0.0.1:8000" ]
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://127.0.0.1:8000",
-    "https://ncs-plexus.herokuapp.com/"
+    "https://ncs-plexus.herokuapp.com"
 ]
 
 # Application definition

@@ -2,8 +2,8 @@ from events.models import Event
 from rest_framework import viewsets, permissions
 from .serializers import EventSerializer
 from registration.models import society
-from .models import Event, Question, Answers, Score, Rule
-from .serializers import QuestionSerializer, AnswerSerializer, ScoreSerializer, RuleSerializer
+from .models import Event, Question, Score, Rule
+from .serializers import QuestionSerializer, ScoreSerializer, RuleSerializer
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -30,16 +30,16 @@ class QuestionViewSet(viewsets.ModelViewSet):
         return Question.objects.all()
 
 
-class AnswerViewSet(viewsets.ModelViewSet):
-    queryset = Answers.objects.all()
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
+# class AnswerViewSet(viewsets.ModelViewSet):
+#     queryset = Answers.objects.all()
+#     permission_classes = [
+#         permissions.IsAuthenticated
+#     ]
 
-    serializer_class = AnswerSerializer
+#     serializer_class = AnswerSerializer
 
-    def get_queryset(self):
-        return Answers.objects.all()
+#     def get_queryset(self):
+#         return Answers.objects.all()
 
 
 class ScoreViewSet(viewsets.ModelViewSet):

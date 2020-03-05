@@ -31,6 +31,9 @@ class Question(models.Model):
     question = models.TextField()
     image = models.ImageField()
     html = models.TextField()
+    score = models.IntegerField()
+    answer = models.CharField(max_length=200)
+    incorrect_scr = models.IntegerField()
     Type = models.CharField(max_length=10)
     level = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -43,19 +46,19 @@ class Question(models.Model):
         verbose_name_plural = "questions"
 
 
-class Answers(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    score = models.IntegerField()
-    answer = models.CharField(max_length=200)
-    incorrect_scr = models.IntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+# class Answers(models.Model):
+#     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+#     score = models.IntegerField()
+#     answer = models.CharField(max_length=200)
+#     incorrect_scr = models.IntegerField()
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return "%s" % (self.answer)
+#     def __str__(self):
+#         return "%s" % (self.answer)
 
-    class Meta:
-        verbose_name_plural = "answers"
+#     class Meta:
+#         verbose_name_plural = "answers"
 
 
 class Score(models.Model):
