@@ -20,18 +20,20 @@ class player_registration_view(generics.CreateAPIView):
 
 
 class user_login(APIView):
-	queryset = models.player.objects.all()
-	serializer_class = serializers.UserLoginSerializer 
+    queryset = models.player.objects.all()
+    serializer_class = serializers.UserLoginSerializer
 
-	def post(self, request):
-		serializer = serializers.UserLoginSerializer(data=request.data)
-		if serializer.is_valid():
-			user = authenticate(username=serializer.data['username'], password=serializer.data['password'])
-			if not user:
-				return Response({'error': 'Invalid credentials'})
-			refresh = RefreshToken.for_user(user)
-			return Response({
-				        'refresh': str(refresh),
-						'access': str(refresh.access_token),
-							})
-		return Response(serializer.error_messages)
+    def post(self, request):
+        serializer = serializers.UserLoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user = authenticate(
+                username=serializer.data['username'],
+                password=serializer.data['password'])
+            if not user:
+                return Response({'error': 'Invalid credentials'})
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                            'refresh': str(refresh),
+                            'access': str(refresh.access_token),
+                            })
+        return Response(serializer.error_messages)
