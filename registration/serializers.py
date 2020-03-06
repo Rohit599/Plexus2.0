@@ -12,7 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
 		}
 
 
-
 class PlayerRegistrationSerializer(serializers.ModelSerializer):
 	user = UserSerializer(required=True)
 
@@ -56,5 +55,4 @@ class UserLoginSerializer(serializers.ModelSerializer):
 		extra_kwargs = {
 				'password': {'write_only':True}
 		}
-
-
+		
