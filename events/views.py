@@ -4,6 +4,7 @@ from rest_framework import generics
 from events import models
 from registration.models import society
 
+
 # Create your views here.
 
 
