@@ -1,4 +1,4 @@
-import django_heroku
+# import django_heroku
 import os
 from datetime import timedelta
 
@@ -14,9 +14,9 @@ SECRET_KEY = 'qocndj5hh46yq@x!=a*gkw+bt!_94%dkkw)pygg+im$(!(x1a2'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["https://ncs-plexus.herokuapp.com/", "http://127.0.0.1:8000" ]
+# ALLOWED_HOSTS = ["https://ncs-plexus.herokuapp.com/", "http://127.0.0.1:8000" ]
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
@@ -33,11 +33,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
+    # 'corsheaders',
     # Apps
     'registration',
     'events',
-    
+
     # Rest Framework
     'rest_framework',
 
@@ -76,9 +76,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'plexusDjango.wsgi.application'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
+    )
+,
 }
 
 
@@ -164,5 +165,5 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
 
