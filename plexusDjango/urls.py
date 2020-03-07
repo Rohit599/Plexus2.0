@@ -25,6 +25,7 @@ urlpatterns = [
 
     # REST FRAMEWORK URLS
     path('api/register/', include('registration.urls', 'register_api')),
+
     path(
         'api/token/',
         TokenObtainPairView.as_view(),

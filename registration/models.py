@@ -29,7 +29,7 @@ class player(models.Model):
         verbose_name_plural = "players"
 
     def __str__(self):
-        return "%s" % (self.name)
+        return "%s" % (self.user)
 
 
 class society(models.Model):
@@ -50,4 +50,4 @@ class society(models.Model):
         verbose_name_plural = "societies"
 
     def __str__(self):
-        return "%s" % (self.name)
+        return "%s" % (self.user)

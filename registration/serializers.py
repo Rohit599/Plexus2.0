@@ -11,7 +11,6 @@ class UserSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
 
-
 class PlayerRegistrationSerializer(serializers.ModelSerializer):
     user = UserSerializer(required=True)
 
