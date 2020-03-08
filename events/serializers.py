@@ -6,20 +6,14 @@ from .models import Event, Question, Score, Rule
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = '__all__'
+        # fields = ['name','description','start_time','end_time','duration','total_ques','event_type','forum']
+        fields = ['name','description']
 
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = '__all__'
-
-
-# class AnswerSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Answers
-#         fields = '__all__'
-
 
 class ScoreSerializer(serializers.ModelSerializer):
     class Meta:

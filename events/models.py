@@ -7,15 +7,16 @@ from tinymce import models as tinymce_models
 signer = Signer()
 
 class Event(models.Model):
-    eventName = models.CharField(max_length=250)
-    eventCode = models.IntegerField(null=True)
-    eventDes = models.TextField()
-    startTime = models.DateTimeField()
-    endTime = models.DateTimeField()
+
+    society = models.ForeignKey(society, on_delete=models.CASCADE)
+
+    name = models.CharField(max_length=250, unique=True)
+    description = models.TextField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     duration = models.IntegerField(
         help_text="time duration of events in minutes")
     totalQues = models.IntegerField()
-    societyId = models.ForeignKey(society, on_delete=models.CASCADE, null=True)
     Type = models.IntegerField()
     status = models.IntegerField()
     forum = models.TextField()
@@ -23,21 +24,24 @@ class Event(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "%s" % (self.eventName)
+        return "%s" % (self.name)
 
     class Meta:
         verbose_name_plural = "events"
 
 
 class Question(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='questions', blank=True, null=True)
+    
     question = models.TextField()
+    answer = models.CharField(max_length=200)
     image = models.ImageField()
     html = tinymce_models.HTMLField()
     score = models.IntegerField()
     answer = models.CharField(max_length=200)
     incorrect_scr = models.IntegerField()
-    Type = models.CharField(max_length=10)
+    event_type = models.CharField(max_length=10)
     level = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -51,26 +55,13 @@ class Question(models.Model):
 
     class Meta:
         verbose_name_plural = "questions"
-
-
-# class Answers(models.Model):
-#     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-#     score = models.IntegerField()
-#     answer = models.CharField(max_length=200)
-#     incorrect_scr = models.IntegerField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-
-#     def __str__(self):
-#         return "%s" % (self.answer)
-
-#     class Meta:
-#         verbose_name_plural = "answers"
-
-
+        
+        
 class Score(models.Model):
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
     score = models.IntegerField()
     level = models.IntegerField()
     counter = models.IntegerField()
@@ -86,7 +77,9 @@ class Score(models.Model):
 
 
 class Rule(models.Model):
+
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
     rules = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

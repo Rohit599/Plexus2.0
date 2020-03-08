@@ -3,6 +3,7 @@ from registration import views
 
 app_name = "registration"
 
+
 urlpatterns = [
     path(
         'player_register/',

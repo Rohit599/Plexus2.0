@@ -6,12 +6,11 @@ from .models import Event, Question, Score, Rule
 from .serializers import QuestionSerializer, ScoreSerializer, RuleSerializer
 from django.views.decorators.csrf import csrf_exempt
 
-
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
+    # permission_classes = [
+    #     permissions.IsAuthenticated
+    # ]
 
     serializer_class = EventSerializer
 
@@ -21,33 +20,20 @@ class EventViewSet(viewsets.ModelViewSet):
 
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
+    # permission_classes = [
+    #     permissions.IsAuthenticated
+    # ]
 
     serializer_class = QuestionSerializer
 
     def get_queryset(self):
         return Question.objects.all()
 
-
-# class AnswerViewSet(viewsets.ModelViewSet):
-#     queryset = Answers.objects.all()
-#     permission_classes = [
-#         permissions.IsAuthenticated
-#     ]
-
-#     serializer_class = AnswerSerializer
-
-#     def get_queryset(self):
-#         return Answers.objects.all()
-
-
 class ScoreViewSet(viewsets.ModelViewSet):
     queryset = Score.objects.all()
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
+    # permission_classes = [
+    #     permissions.IsAuthenticated
+    # ]
 
     serializer_class = ScoreSerializer
 
@@ -57,9 +43,9 @@ class ScoreViewSet(viewsets.ModelViewSet):
 
 class RuleViewSet(viewsets.ModelViewSet):
     queryset = Rule.objects.all()
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
+    # permission_classes = [
+    #     permissions.IsAuthenticated
+    # ]
 
     serializer_class = RuleSerializer
 
