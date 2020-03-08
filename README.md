@@ -8,7 +8,7 @@
 - `api/register/login/`: to login player/society
 - `api/token/`: returns an access and refresh JSON web token pair
 - `api/token/refresh/`: returns an access type JSON web token if the refresh token is valid
-- `api/events/list/`: lists all the events
+- `api/events/events/`: lists all the events
 - `api/events/questions/`: lists all the questions
 - `api/events/answers/`: lists the answers
 - `api/events/scores/`: lists the scores
