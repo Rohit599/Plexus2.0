@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from registration.models import society, player
-
+# from django_cryptography.fields import encrypt
+from django.core.signing import Signer
+signer = Signer()
 
 class Event(models.Model):
     eventName = models.CharField(max_length=250)
@@ -41,6 +43,10 @@ class Question(models.Model):
 
     def __str__(self):
         return "%s" % (self.question)
+    
+    def encanswer(self):
+        return signer.sign(self.answer)
+
 
     class Meta:
         verbose_name_plural = "questions"
