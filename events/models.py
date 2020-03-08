@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from registration.models import society, player
 # from django_cryptography.fields import encrypt
 from django.core.signing import Signer
+from tinymce import models as tinymce_models
 signer = Signer()
 
 class Event(models.Model):
@@ -32,7 +33,7 @@ class Question(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     question = models.TextField()
     image = models.ImageField()
-    html = models.TextField()
+    html = tinymce_models.HTMLField()
     score = models.IntegerField()
     answer = models.CharField(max_length=200)
     incorrect_scr = models.IntegerField()

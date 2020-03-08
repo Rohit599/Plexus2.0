@@ -4,6 +4,7 @@ from .serializers import EventSerializer
 from registration.models import society
 from .models import Event, Question, Score, Rule
 from .serializers import QuestionSerializer, ScoreSerializer, RuleSerializer
+from django.views.decorators.csrf import csrf_exempt
 
 
 class EventViewSet(viewsets.ModelViewSet):
