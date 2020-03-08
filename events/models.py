@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from registration.models import society, player
-
+# from django_cryptography.fields import encrypt
+from django.core.signing import Signer
+from tinymce import models as tinymce_models
+signer = Signer()
 
 class Event(models.Model):
 
@@ -9,14 +12,14 @@ class Event(models.Model):
 
     name = models.CharField(max_length=250, unique=True)
     description = models.TextField()
-    # start_time = models.DateTimeField()
-    # end_time = models.DateTimeField()
-    # duration = models.IntegerField(
-    #     help_text="time duration of events in minutes")
-    # totalQues = models.IntegerField()
-    # Type = models.IntegerField()
-    # status = models.IntegerField()
-    # forum = models.TextField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    duration = models.IntegerField(
+        help_text="time duration of events in minutes")
+    totalQues = models.IntegerField()
+    Type = models.IntegerField()
+    status = models.IntegerField()
+    forum = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -33,22 +36,27 @@ class Question(models.Model):
     
     question = models.TextField()
     answer = models.CharField(max_length=200)
-    # score = models.IntegerField()
-    # incorrect_score = models.IntegerField()
-    # image = models.ImageField()
-    # html = models.TextField()
-    # Type = models.CharField(max_length=10)
-    # level = models.IntegerField()
+    image = models.ImageField()
+    html = tinymce_models.HTMLField()
+    score = models.IntegerField()
+    answer = models.CharField(max_length=200)
+    incorrect_scr = models.IntegerField()
+    event_type = models.CharField(max_length=10)
+    level = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return "%s" % (self.question)
+    
+    def encanswer(self):
+        return signer.sign(self.answer)
+
 
     class Meta:
         verbose_name_plural = "questions"
-
-
+        
+        
 class Score(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -16,12 +16,13 @@ SECRET_KEY = 'qocndj5hh46yq@x!=a*gkw+bt!_94%dkkw)pygg+im$(!(x1a2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 # ALLOWED_HOSTS = ["https://ncs-plexus.herokuapp.com/", "http://127.0.0.1:8000" ]
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://127.0.0.1:8000",
-    "https://ncs-plexus.herokuapp.com/"
+    "https://ncs-plexus.herokuapp.com"
 ]
 
 # Application definition
@@ -33,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tinymce',
     # 'corsheaders',
     # Apps
     'registration',
@@ -127,7 +129,7 @@ USE_L10N = True
 USE_TZ = True
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
