@@ -1,12 +1,10 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from registration import serializers
-from registration import models
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import generics
-from registration import models
 from rest_framework.views import APIView
+from . import serializers
+from . import models
 
 
 class society_registration_view(generics.CreateAPIView):

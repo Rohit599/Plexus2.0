@@ -29,7 +29,7 @@ class player(models.Model):
         verbose_name_plural = "players"
 
     def __str__(self):
-        return "%s" % (self.name)
+        return "%s" % (self.user)
 
 
 class society(models.Model):
@@ -37,7 +37,8 @@ class society(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
-        primary_key=True)
+        primary_key=True,
+        related_name='events')
 
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
@@ -50,4 +51,4 @@ class society(models.Model):
         verbose_name_plural = "societies"
 
     def __str__(self):
-        return "%s" % (self.name)
+        return "%s" % (self.user)
