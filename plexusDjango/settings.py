@@ -1,10 +1,8 @@
-# import django_heroku
 import os
 from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -17,14 +15,6 @@ SECRET_KEY = 'qocndj5hh46yq@x!=a*gkw+bt!_94%dkkw)pygg+im$(!(x1a2'
 DEBUG = True
 
 
-# ALLOWED_HOSTS = ["https://ncs-plexus.herokuapp.com/", "http://127.0.0.1:8000" ]
-
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-    "http://127.0.0.1:8000",
-    "https://ncs-plexus.herokuapp.com"
-]
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -35,14 +25,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tinymce',
-    # 'corsheaders',
+
     # Apps
     'registration',
     'events',
 
     # Rest Framework
     'rest_framework',
-
 ]
 
 MIDDLEWARE = [
@@ -53,7 +42,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
 
@@ -80,8 +68,7 @@ WSGI_APPLICATION = 'plexusDjango.wsgi.application'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
-,
+    ),
 }
 
 
@@ -166,6 +153,3 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-# django_heroku.settings(locals())
-

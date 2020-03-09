@@ -2,14 +2,13 @@
 
 ### API Endpoints:
 
-- `admin/` : to open admin panel
-- `api/register/player_register/`: to register a player
-- `api/register/society_register/`: to register a society
-- `api/register/login/`: to login player/society
-- `api/token/`: returns an access and refresh JSON web token pair
-- `api/token/refresh/`: returns an access type JSON web token if the refresh token is valid
-- `api/events/events/`: lists all the events
-- `api/events/questions/`: lists all the questions
-- `api/events/answers/`: lists the answers
-- `api/events/scores/`: lists the scores
-- `api/events/rules/`: lists the rules
+- `admin/` : Opens admin panel
+- `api/register/player_register/`: Register a player
+- `api/register/society_register/`: Register a society
+- `api/register/login/`: Login for player/society
+- `api/token/`: Returns an access and refresh JSON web token pair
+- `api/token/refresh/`: Returns an access type JSON web token if the refresh token is valid
+- `api/events/events/`: Viewset for the event model
+- `api/events/events/{pk}/questions`: Viewset for the questions model
+- `api/events/scores/`: Viewset for the scores model
+- `api/events/rules/`: Viewset for the rules model
