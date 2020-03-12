@@ -1,9 +1,8 @@
 from django.db import models
 from registration.models import society, player
-from django.core.signing import Signer
 from tinymce import models as tinymce_models
+from django.core.signing import Signer
 signer = Signer()
-
 
 class Event(models.Model):
 
@@ -32,11 +31,11 @@ class Question(models.Model):
                               related_name='questions', blank=True, null=True)
     question = models.TextField()
     answer = models.CharField(max_length=200)
-    image = models.ImageField()
-    html = tinymce_models.HTMLField()
+    image = models.ImageField(null=True)
+    html = tinymce_models.HTMLField(null=True)
     score = models.IntegerField()
     answer = models.CharField(max_length=200)
-    incorrect_score = models.IntegerField()
+    incorrect_score = models.IntegerField(null=True)
     event_type = models.CharField(max_length=10)
     level = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -45,8 +44,8 @@ class Question(models.Model):
     def __str__(self):
         return "%s" % (self.question)
 
-    def encanswer(self):
-        return signer.sign(self.answer)
+    def answer(self):
+        return (signer.sign(self.answer.__self__))
 
     class Meta:
         verbose_name_plural = "questions"
