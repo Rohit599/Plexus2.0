@@ -28,8 +28,8 @@ class Event(models.Model):
 
 class Question(models.Model):
 
-    event = models.ForeignKey(Event, on_delete=models.CASCADE,
-                              related_name='questions', blank=True, null=True)
+    event = models.ForeignKey(
+        Event, on_delete=models.CASCADE, related_name='questions', blank=True, null=True)
     question = models.TextField()
     answer = models.CharField(max_length=200)
     image = models.ImageField()

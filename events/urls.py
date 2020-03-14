@@ -1,17 +1,24 @@
 from rest_framework import routers as rest_routers
 from django.conf.urls import url, include
+from django.urls import path
 from rest_framework_nested import routers as nested_routers
-from .api import EventViewSet, QuestionViewSet, ScoreViewSet, RuleViewSet
+from .api import EventViewSet, QuestionViewSet, ScoreViewSet, RuleViewSet, StartEvent, EventDetails, QuestionsPlay
 
-router = rest_routers.DefaultRouter()
-router.register('events', EventViewSet, 'events')
+
+router = rest_routers.SimpleRouter()
+router.register(r'events', EventViewSet)
 router.register('scores', ScoreViewSet, 'scores')
-router.register('rules', RuleViewSet, 'rules')
 
-question_router = nested_routers.NestedSimpleRouter(router, 'events', lookup='events')
-question_router.register('questions', QuestionViewSet, 'questions')
+event_router = nested_routers.NestedSimpleRouter(router, r'events', lookup='event')
+
+event_router.register(r'questions', QuestionViewSet, basename='event-questions')
+event_router.register(r'rules', RuleViewSet, basename='event-rules')
 
 urlpatterns = [
                 url(r'^', include(router.urls)),
-                url(r'^', include(question_router.urls)),
+                url(r'^', include(event_router.urls)),
+                path('player_dashboard/', StartEvent.as_view(), name="eventList"),
+                path('player_dashboard/<int:pk>', EventDetails.as_view(), name="eventDetails"),
+                path('player_dashboard/<int:pk>/play', QuestionsPlay.as_view(), name="questions"),
+
 ]
