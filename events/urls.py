@@ -2,12 +2,11 @@ from rest_framework import routers as rest_routers
 from django.conf.urls import url, include
 from django.urls import path
 from rest_framework_nested import routers as nested_routers
-from .api import EventViewSet, QuestionViewSet, ScoreViewSet, RuleViewSet, StartEvent, EventDetails, QuestionsPlay
+from .api import EventViewSet, QuestionViewSet, RuleViewSet, StartEvent, EventDetails, QuestionsPlay
 
 
 router = rest_routers.SimpleRouter()
 router.register(r'events', EventViewSet)
-router.register('scores', ScoreViewSet, 'scores')
 
 event_router = nested_routers.NestedSimpleRouter(router, r'events', lookup='event')
 

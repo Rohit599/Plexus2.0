@@ -1,5 +1,5 @@
 from django.db import models
-from registration.models import society, player
+# from registration import models
 from django.core.signing import Signer
 from tinymce import models as tinymce_models
 signer = Signer()
@@ -7,7 +7,7 @@ signer = Signer()
 
 class Event(models.Model):
 
-    society = models.ForeignKey(society, on_delete=models.CASCADE)
+    society = models.ForeignKey('registration.society', on_delete=models.CASCADE)
     name = models.CharField(max_length=250, unique=True)
     description = models.TextField()
     start_time = models.DateTimeField()
@@ -16,6 +16,7 @@ class Event(models.Model):
     total_ques = models.IntegerField()
     event_type = models.IntegerField()
     forum = models.TextField()
+    player_score = models.ManyToManyField('registration.player', through='events.Score', related_name='event_num')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -54,25 +55,17 @@ class Question(models.Model):
 
 class Score(models.Model):
 
-    player = models.ForeignKey(player, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    score = models.IntegerField()
-    level = models.IntegerField()
-    counter = models.IntegerField()
-    logged_on = models.DateTimeField()
+    player = models.ForeignKey('registration.player', on_delete=models.CASCADE, related_name='player_score')
+    event = models.ForeignKey('events.Event', on_delete=models.CASCADE, related_name='event_score')
+    score = models.IntegerField(default=0)
+    level = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return "%s" % (self.player)
-
-    class Meta:
-        verbose_name_plural = "scores"
 
 
 class Rule(models.Model):
 
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event = models.ForeignKey('events.Event', on_delete=models.CASCADE)
     rules = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

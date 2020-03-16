@@ -1,11 +1,10 @@
-from rest_framework import viewsets, status, generics
+from rest_framework import viewsets
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from registration.models import society
 from .models import Event, Question, Score, Rule
-from .serializers import EventSerializer, QuestionSerializer, ScoreSerializer, RuleSerializer
-from rest_framework.reverse import reverse
+from .serializers import EventSerializer, QuestionSerializer, RuleSerializer
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -29,24 +28,14 @@ class QuestionViewSet(viewsets.ModelViewSet):
         new_society = society.objects.get(user=self.request.user)
         serializer.save(society=new_society)
 
-    def get_queryset(self):
-        return Question.objects.filter(event=self.kwargs['event_pk'])
-
-
-class ScoreViewSet(viewsets.ModelViewSet):
-    queryset = Score.objects.all()
-    serializer_class = ScoreSerializer
-
-    def get_queryset(self):
-        return Score.objects.all()
-
 
 class RuleViewSet(viewsets.ModelViewSet):
     queryset = Rule.objects.all()
     serializer_class = RuleSerializer
 
-    def get_queryset(self):
-        return Rule.objects.all()
+    def perform_create(self, serializer):
+        new_society = society.objects.get(user=self.request.user)
+        serializer.save(society=new_society)
 
 
 class StartEvent(APIView):
@@ -65,19 +54,27 @@ class EventDetails(APIView):
 
 class QuestionsPlay(APIView):
     def get(self, request, *args, **kwargs):
-        url_event = self.kwargs["pk"]
-        # questions = Question.objects.filter(event=url_event).order_by("level")
-        # serializer = QuestionSerializer(questions, many=True)
-        # level_count = self.kwargs["level"]
-        level_count = 1
-        if level_count == 0:
-            question = Question.objects.filter(event=url_event, level=1)
-        else:
-            level_count+=1
-            question = Question.objects.filter(event=url_event, level=level_count)
+        event_url = self.kwargs["pk"]
+        try:
+            score_play = Score.objects.get(player=self.request.user, event=event_url)
+        except KeyError:
+            score_play = Score.objects.create(player=self.request.user, event=event_url)
+        level = score_play.level
+        question = Question.objects.get(event=event_url, level=level)
         serializer = QuestionSerializer(question)
         return Response(serializer.data)
     
     def post(self, request, *args, **kwargs):
-        level = request.data.get("level")
-        return Response(level)
+        event_url = self.kwargs["pk"]
+        try:
+            score_play = Score.objects.get(player=self.request.user, event=event_url)
+        except KeyError:
+            score_play = Score.objects.create(player=self.request.user, event=event_url)
+        level = score_play.level
+        answer = request.data["answer"]
+        question = Question.objects.get(event=event_url, level=level)
+        if answer == question.answer:
+            score_play.level += 1
+            return Response({"answer": "Correct"})
+        else:
+            return Response({"answer": "Inorrect"})
