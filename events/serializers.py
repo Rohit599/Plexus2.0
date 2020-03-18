@@ -29,16 +29,14 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('event',)
 
-    # def create(self, validated_data):
-    #     encanswer = validated_data.pop('answer')
-    #     enc = signer.sign(encanswer)
-    #     question_obj = Question.objects.create(answer=enc, **validated_data)
-    #     question_obj.save()
-    #     return question_obj
-
 
 class RuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rule
         fields = '__all__'
         read_only_fields = ('event',)
+
+class ScoreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Score
+        fields = ['event', 'player', 'score','level']

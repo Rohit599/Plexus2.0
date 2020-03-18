@@ -59,6 +59,13 @@ class Score(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return "%s" % (self.player)
+
+    class Meta:
+        verbose_name_plural = "scores"
+
+
 
 class Rule(models.Model):
 

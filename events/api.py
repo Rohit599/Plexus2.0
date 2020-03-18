@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from registration.models import society
 from .models import Event, Question, Score, Rule
-from .serializers import EventSerializer, QuestionSerializer, RuleSerializer
+from .serializers import EventSerializer, QuestionSerializer, RuleSerializer, ScoreSerializer
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -69,3 +69,11 @@ class QuestionsPlay(APIView):
             score_play.score += question.incorrect_score
             score_play.save()
             return Response({"answer": "Inorrect"})
+
+
+class Leaderboard(APIView):
+    def get(self, request, *args, **kwargs):
+        event_url = self.kwargs["pk"]
+        queryset = Score.objects.order_by("-score", "level").filter(event=event_url)
+        serializer = ScoreSerializer(queryset, many=True)
+        return Response(serializer.data)
