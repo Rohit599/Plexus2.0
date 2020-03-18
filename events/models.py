@@ -1,6 +1,4 @@
 from django.db import models
-# from django.core.signing import Signer
-from fernet_fields import EncryptedTextField
 from tinymce import models as tinymce_models
 
 
@@ -34,7 +32,7 @@ class Question(models.Model):
     image = models.ImageField(null=True)
     html = tinymce_models.HTMLField(null=True)
     correct_score = models.IntegerField()
-    answer = EncryptedTextField()
+    answer = models.CharField(max_length=200)
     incorrect_score = models.IntegerField()
     level = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -42,6 +40,9 @@ class Question(models.Model):
 
     def __str__(self):
         return "%s" % (self.question)
+
+    # def answer(self):
+    #     return (signer.sign(self.answer.__self__))
 
     class Meta:
         verbose_name_plural = "questions"

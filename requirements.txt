@@ -6,8 +6,6 @@ cryptography==2.8
 Django==3.0.3
 django-appconf==1.0.3
 django-cors-headers==3.2.1
-django-cryptography==1.0
-django-fernet-fields==0.6
 django-rest-framework-nested==0.0.1
 django-tinymce==2.8.0
 djangorestframework==3.11.0

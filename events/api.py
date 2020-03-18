@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from registration.models import society
 from .models import Event, Question, Score, Rule
 from .serializers import EventSerializer, QuestionSerializer, RuleSerializer
+from django.core.signing import Signer
+signer = Signer()
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -28,7 +30,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
 class RuleViewSet(viewsets.ModelViewSet):
     queryset = Rule.objects.all()
     serializer_class = RuleSerializer
-    
+ 
 
 class StartEvent(APIView):
     def get(self, request):
@@ -53,13 +55,14 @@ class QuestionsPlay(APIView):
         question = Question.objects.get(event=event_url, level=level)
         serializer = QuestionSerializer(question)
         return Response(serializer.data)
-    
+
     def post(self, request, *args, **kwargs):
         event_url = self.kwargs["pk"]
         score_play = Score.objects.get(player=self.request.user.player, event=event_url)
         level = score_play.level
         answer = request.data["answer"]
         question = Question.objects.get(event=event_url, level=level)
+        # cor_answer = signer.unsign(question.answer)
         if answer == question.answer:
             score_play.level += 1
             score_play.score += question.correct_score
