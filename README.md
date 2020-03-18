@@ -12,3 +12,6 @@
 - `api/events/events/{pk}/questions`: Viewset for the questions model
 - `api/events/scores/`: Viewset for the scores model
 - `api/events/rules/`: Viewset for the rules model
+- `api/events/leaderboard/<int:pk>`: Leaderboard of a specific event
+- `/swagger/`: API Documentation using Swagger
+- `/redoc/`: API Documenation using Redoc
