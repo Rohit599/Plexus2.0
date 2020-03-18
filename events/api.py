@@ -24,19 +24,11 @@ class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
 
-    def perform_create(self, serializer):
-        new_society = society.objects.get(user=self.request.user)
-        serializer.save(society=new_society)
-
 
 class RuleViewSet(viewsets.ModelViewSet):
     queryset = Rule.objects.all()
     serializer_class = RuleSerializer
-
-    def perform_create(self, serializer):
-        new_society = society.objects.get(user=self.request.user)
-        serializer.save(society=new_society)
-
+    
 
 class StartEvent(APIView):
     def get(self, request):
@@ -55,10 +47,8 @@ class EventDetails(APIView):
 class QuestionsPlay(APIView):
     def get(self, request, *args, **kwargs):
         event_url = self.kwargs["pk"]
-        try:
-            score_play = Score.objects.get(player=self.request.user, event=event_url)
-        except KeyError:
-            score_play = Score.objects.create(player=self.request.user, event=event_url)
+        player_id = self.request.user.player
+        score_play, created = Score.objects.get_or_create(player=player_id, event=Event.objects.get(pk=event_url))
         level = score_play.level
         question = Question.objects.get(event=event_url, level=level)
         serializer = QuestionSerializer(question)
@@ -66,15 +56,16 @@ class QuestionsPlay(APIView):
     
     def post(self, request, *args, **kwargs):
         event_url = self.kwargs["pk"]
-        try:
-            score_play = Score.objects.get(player=self.request.user, event=event_url)
-        except KeyError:
-            score_play = Score.objects.create(player=self.request.user, event=event_url)
+        score_play = Score.objects.get(player=self.request.user.player, event=event_url)
         level = score_play.level
         answer = request.data["answer"]
         question = Question.objects.get(event=event_url, level=level)
         if answer == question.answer:
             score_play.level += 1
+            score_play.score += question.correct_score
+            score_play.save()
             return Response({"answer": "Correct"})
         else:
+            score_play.score += question.incorrect_score
+            score_play.save()
             return Response({"answer": "Inorrect"})

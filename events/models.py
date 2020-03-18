@@ -1,8 +1,7 @@
 from django.db import models
-# from registration import models
-from django.core.signing import Signer
+# from django.core.signing import Signer
+from fernet_fields import EncryptedTextField
 from tinymce import models as tinymce_models
-signer = Signer()
 
 
 class Event(models.Model):
@@ -14,7 +13,6 @@ class Event(models.Model):
     end_time = models.DateTimeField()
     duration = models.IntegerField(help_text="time duration is in minutes")
     total_ques = models.IntegerField()
-    event_type = models.IntegerField()
     forum = models.TextField()
     player_score = models.ManyToManyField('registration.player', through='events.Score', related_name='event_num')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -33,21 +31,17 @@ class Question(models.Model):
         Event, on_delete=models.CASCADE, related_name='questions', blank=True, null=True)
     question = models.TextField()
     answer = models.CharField(max_length=200)
-    image = models.ImageField()
-    html = tinymce_models.HTMLField()
-    score = models.IntegerField()
-    answer = models.CharField(max_length=200)
+    image = models.ImageField(null=True)
+    html = tinymce_models.HTMLField(null=True)
+    correct_score = models.IntegerField()
+    answer = EncryptedTextField()
     incorrect_score = models.IntegerField()
-    event_type = models.CharField(max_length=10)
     level = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return "%s" % (self.question)
-
-    def encanswer(self):
-        return signer.sign(self.answer)
 
     class Meta:
         verbose_name_plural = "questions"
