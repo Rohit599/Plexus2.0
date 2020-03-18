@@ -1,5 +1,7 @@
 from django.db import models
 from tinymce import models as tinymce_models
+from django.core.signing import Signer
+signer = Signer()
 
 
 class Event(models.Model):

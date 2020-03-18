@@ -17,10 +17,6 @@ class EventViewSet(viewsets.ModelViewSet):
         new_society = society.objects.get(user=self.request.user)
         serializer.save(society=new_society)
 
-    def get_questions(self, obj):
-        query = obj.Question.all().order_by('order')
-        return QuestionSerializer(query, many=True, read_only=True).data
-
 
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
