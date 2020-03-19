@@ -1,9 +1,6 @@
 from rest_framework import serializers
 from .models import Event, Question, Score, Rule
-from django.core.signing import Signer
-signer = Signer()
 import datetime
-
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -28,7 +25,6 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = '__all__'
         read_only_fields = ('event',)
-
 
 
 class RuleSerializer(serializers.ModelSerializer):
