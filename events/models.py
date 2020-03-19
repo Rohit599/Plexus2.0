@@ -7,16 +7,21 @@ signer = Signer()
 
 class Event(models.Model):
 
-
-    society = models.ForeignKey('registration.society', on_delete=models.CASCADE)
+    society = models.ForeignKey(
+        'registration.society',
+        on_delete=models.CASCADE)
     name = models.CharField(max_length=250, unique=True)
     description = models.TextField()
-    start_time = models.DateTimeField(help_text="Enter the starting date and time")
+    start_time = models.DateTimeField(
+        help_text="Enter the starting date and time")
     end_time = models.DateTimeField(help_text="Enter the ending date and time")
     duration = models.IntegerField(help_text="time duration is in minutes")
     total_ques = models.IntegerField()
     forum = models.TextField()
-    player_score = models.ManyToManyField('registration.player', through='events.Score', related_name='event_num')
+    player_score = models.ManyToManyField(
+        'registration.player',
+        through='events.Score',
+        related_name='event_num')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -25,16 +30,21 @@ class Event(models.Model):
 
     class Meta:
         verbose_name_plural = "events"
-    
+
     def correct_dates(self):
         if (self.end_time) < (self.start_time):
-            raise ValidationError("End date should be greater than start date.")
+            raise ValidationError(
+                "End date should be greater than start date.")
 
 
 class Question(models.Model):
 
     event = models.ForeignKey(
-        Event, on_delete=models.CASCADE, related_name='questions', blank=True, null=True)
+        Event,
+        on_delete=models.CASCADE,
+        related_name='questions',
+        blank=True,
+        null=True)
     question = models.TextField()
     answer = models.CharField(max_length=200)
     image = models.ImageField(null=True)
@@ -57,8 +67,14 @@ class Question(models.Model):
 
 class Score(models.Model):
 
-    player = models.ForeignKey('registration.player', on_delete=models.CASCADE, related_name='player_score')
-    event = models.ForeignKey('events.Event', on_delete=models.CASCADE, related_name='event_score')
+    player = models.ForeignKey(
+        'registration.player',
+        on_delete=models.CASCADE,
+        related_name='player_score')
+    event = models.ForeignKey(
+        'events.Event',
+        on_delete=models.CASCADE,
+        related_name='event_score')
     score = models.IntegerField(default=0)
     level = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -69,7 +85,6 @@ class Score(models.Model):
 
     class Meta:
         verbose_name_plural = "scores"
-
 
 
 class Rule(models.Model):
