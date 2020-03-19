@@ -30,11 +30,13 @@ class QuestionSerializer(serializers.ModelSerializer):
         read_only_fields = ('event',)
 
 
+
 class RuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rule
         fields = '__all__'
         read_only_fields = ('event',)
+
 
 class ScoreSerializer(serializers.ModelSerializer):
     class Meta:

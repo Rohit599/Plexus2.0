@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
-# from events.models import Event, Score
 
 # Create your models here.
 
@@ -34,6 +33,7 @@ class player(models.Model):
         return "%s" % (self.name)
 
 
+
 class society(models.Model):
 
     user = models.OneToOneField(
@@ -54,3 +54,4 @@ class society(models.Model):
 
     def __str__(self):
         return "%s" % (self.name)
+

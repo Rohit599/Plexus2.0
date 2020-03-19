@@ -7,6 +7,7 @@ from .models import Event, Question, Score, Rule
 from .serializers import EventSerializer, QuestionSerializer, RuleSerializer, ScoreSerializer
 
 
+
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
@@ -20,9 +21,22 @@ class EventViewSet(viewsets.ModelViewSet):
         return QuestionSerializer(query, many=True, read_only=True).data
 
 
+
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+
+    def get_queryset(self):
+        return Question.objects.all()
+
+
+class ScoreViewSet(viewsets.ModelViewSet):
+    queryset = Score.objects.all()
+    serializer_class = ScoreSerializer
+
+    def get_queryset(self):
+        return Score.objects.all()
+
 
 
 class RuleViewSet(viewsets.ModelViewSet):

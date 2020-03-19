@@ -6,6 +6,7 @@ signer = Signer()
 
 class Event(models.Model):
 
+
     society = models.ForeignKey('registration.society', on_delete=models.CASCADE)
     name = models.CharField(max_length=250, unique=True)
     description = models.TextField()
