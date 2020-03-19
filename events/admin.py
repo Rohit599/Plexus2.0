@@ -11,4 +11,5 @@ admin.site.register(Rule)
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ['event', 'question', 'image', 'html', 'score', 'answer', 'incorrect_score', 'event_type', 'level', 'created_at', 'updated_at']
+    list_display = ['event', 'question', 'image', 'html', 'correct_score', 'answer', 'incorrect_score', 'level', 'created_at', 'updated_at']
+
