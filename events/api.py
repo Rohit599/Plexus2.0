@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from registration.models import society
 from .models import Event, Question, Score, Rule
 from .serializers import EventSerializer, QuestionSerializer, RuleSerializer, ScoreSerializer
+from datetime import timedelta
+from django.utils import timezone
+import pytz
 
 
 
@@ -90,4 +93,24 @@ class Leaderboard(APIView):
         event_url = self.kwargs["pk"]
         queryset = Score.objects.order_by("-score", "level").filter(event=event_url)
         serializer = ScoreSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class PastEventsView(APIView):
+    def get(self, request):
+        past = timezone.now() - timedelta(days=1)
+        queryset = Event.objects.filter(end_time__range=["2011-01-01", past])
+        serializer = EventSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class PresentEventsView(APIView):
+    def get(self, request):
+        queryset = Event.objects.filter(start_time__range=[timezone.now().date(), timezone.now()])
+        serializer = EventSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class FutureEventsView(APIView):
+    def get(self, request):
+        future = timezone.now() + timedelta(days=1)
+        queryset = Event.objects.filter(start_time__range=[future, "2050-01-01"])
+        serializer = EventSerializer(queryset, many=True)
         return Response(serializer.data)

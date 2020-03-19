@@ -4,3 +4,4 @@ Plexus2.0
 .vscode
 env
 media
+*.pyc
