@@ -10,8 +10,10 @@
 - `api/token/refresh/`: Returns an access type JSON web token if the refresh token is valid
 - `api/events/events/`: Viewset for the event model
 - `api/events/events/{pk}/questions`: Viewset for the questions model
-- `api/events/scores/`: Viewset for the scores model
 - `api/events/rules/`: Viewset for the rules model
+- `api/events/past_events/`: Get all past events
+- `api/events/present_events/`: Get all present events
+- `api/events/future_events/`: Get all future events
 - `api/events/leaderboard/<int:pk>`: Leaderboard of a specific event
 - `/swagger/`: API Documentation using Swagger
-- `/redoc/`: API Documenation using Redoc
+- `/redoc/`: API Documentation using Redoc
