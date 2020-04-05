@@ -1,6 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from registration.models import society
 from .models import Event, Question, Score, Rule
@@ -10,6 +12,8 @@ signer = Signer()
 
 
 class EventViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
@@ -19,16 +23,22 @@ class EventViewSet(viewsets.ModelViewSet):
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
 
 
 class RuleViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+
     queryset = Rule.objects.all()
     serializer_class = RuleSerializer
  
 
 class StartEvent(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         event = Event.objects.all()
         serializer = EventSerializer(event, many=True)
@@ -36,6 +46,8 @@ class StartEvent(APIView):
 
 
 class EventDetails(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, pk, format=None):
         event = get_object_or_404(Event, pk=pk)
         serializer = EventSerializer(event)
@@ -43,6 +55,8 @@ class EventDetails(APIView):
 
 
 class QuestionsPlay(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         event_url = self.kwargs["pk"]
         player_id = self.request.user.player
@@ -67,4 +81,4 @@ class QuestionsPlay(APIView):
         else:
             score_play.score += question.incorrect_score
             score_play.save()
-            return Response({"answer": "Inorrect"})
+            return Response({"answer": "Incorrect"})
