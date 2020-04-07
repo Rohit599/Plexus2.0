@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.models import Group
 from registration.models import player, society, User
 
 
@@ -23,6 +24,8 @@ class PlayerRegistrationSerializer(serializers.ModelSerializer):
         user_data = validated_data.pop('user')
         user_obj = User.objects.create_user(**user_data)
         Player = player.objects.create(user=user_obj, **validated_data)
+        users_group = Group.objects.get(name='players')
+        Player.groups = [users_group]
         Player.save()
         return Player
 

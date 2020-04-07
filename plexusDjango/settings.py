@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tinymce',
-
+    'drf_yasg',
     # Apps
     'registration',
     'events',
