@@ -28,9 +28,6 @@ class Event(models.Model):
     def __str__(self):
         return "%s" % (self.name)
 
-    class Meta:
-        verbose_name_plural = "events"
-
     def correct_dates(self):
         if (self.end_time) < (self.start_time):
             raise ValidationError(
@@ -61,9 +58,6 @@ class Question(models.Model):
     def encanswer(self):
         return signer.sign(self.answer)
 
-    class Meta:
-        verbose_name_plural = "questions"
-
 
 class Score(models.Model):
 
@@ -83,9 +77,6 @@ class Score(models.Model):
     def __str__(self):
         return "%s" % (self.player)
 
-    class Meta:
-        verbose_name_plural = "scores"
-
 
 class Rule(models.Model):
 
@@ -96,6 +87,3 @@ class Rule(models.Model):
 
     def __str__(self):
         return "%s" % (self.rules)
-
-    class Meta:
-        verbose_name_plural = "rules"
