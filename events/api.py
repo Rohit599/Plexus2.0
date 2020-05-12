@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
@@ -20,9 +20,9 @@ class EventViewSet(viewsets.ModelViewSet):
         new_society = society.objects.get(user=self.request.user)
         serializer.save(society=new_society)
 
-    def get_questions(self, obj):
-        query = obj.Question.all().order_by('order')
-        return QuestionSerializer(query, many=True, read_only=True).data
+    # def get_questions(self, obj):
+    #     query = obj.Question.all().order_by('order')
+    #     return QuestionSerializer(query, many=True, read_only=True).data
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
@@ -47,6 +47,16 @@ class ScoreViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Score.objects.all()
+
+
+class SocietyDasboard(generics.ListAPIView):
+    permission_classes = [IsSociety & IsAuthenticated]
+
+    def get(self, request):
+        society_id = society.objects.get(user=self.request.user)
+        events = Event.objects.filter(society=society_id)
+        serializer = EventSerializer(events, many=True)
+        return Response(serializer.data)
 
 
 class StartEvent(APIView):

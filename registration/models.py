@@ -26,11 +26,8 @@ class player(models.Model):
         related_name='player_info')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # avatar = models.ImageField(upload_to='avatars', blank='True')   #
+    # avatar = models.ImageField(upload_to='avatars', blank='True')
     # optional for the user
-
-    def __str__(self):
-        return "%s" % (self.name)
 
 
 class society(models.Model):
@@ -47,6 +44,3 @@ class society(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return "%s" % (self.name)

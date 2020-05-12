@@ -25,9 +25,6 @@ class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return "%s" % (self.name)
-
     def correct_dates(self):
         if (self.end_time) < (self.start_time):
             raise ValidationError(
@@ -52,9 +49,6 @@ class Question(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return "%s" % (self.question)
-
     def encanswer(self):
         return signer.sign(self.answer)
 
@@ -74,9 +68,6 @@ class Score(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return "%s" % (self.player)
-
 
 class Rule(models.Model):
 
@@ -84,6 +75,3 @@ class Rule(models.Model):
     rules = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return "%s" % (self.rules)
