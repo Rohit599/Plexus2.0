@@ -20,10 +20,6 @@ class player(models.Model):
         message="Enter a valid 10 digit phone number")
     contact = models.CharField(validators=[contact_regex], max_length=10)
     college = models.CharField(max_length=50)
-    player_event = models.ManyToManyField(
-        'events.Event',
-        through="events.Score",
-        related_name='player_info')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # avatar = models.ImageField(upload_to='avatars', blank='True')

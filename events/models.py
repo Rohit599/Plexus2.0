@@ -1,26 +1,27 @@
 from django.db import models
 from tinymce import models as tinymce_models
 from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
 from django.core.signing import Signer
 signer = Signer()
 
 
 class Event(models.Model):
 
-    society = models.ForeignKey(
-        'registration.society',
-        on_delete=models.CASCADE)
+    society = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     name = models.CharField(max_length=250, unique=True)
     description = models.TextField()
     start_time = models.DateTimeField(
         help_text="Enter the starting date and time")
-    end_time = models.DateTimeField(help_text="Enter the ending date and time")
-    duration = models.IntegerField(help_text="time duration is in minutes")
+    end_time = models.DateTimeField(
+        help_text="Enter the ending date and time")
+    duration = models.IntegerField(
+        help_text="time duration is in minutes")
     total_ques = models.IntegerField()
     forum = models.TextField()
     player_score = models.ManyToManyField(
-        'registration.player',
-        through='events.Score',
+        get_user_model(),
+        through='Score',
         related_name='event_num')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -56,11 +57,11 @@ class Question(models.Model):
 class Score(models.Model):
 
     player = models.ForeignKey(
-        'registration.player',
+        get_user_model(),
         on_delete=models.CASCADE,
         related_name='player_score')
     event = models.ForeignKey(
-        'events.Event',
+        Event,
         on_delete=models.CASCADE,
         related_name='event_score')
     score = models.IntegerField(default=0)
@@ -71,7 +72,7 @@ class Score(models.Model):
 
 class Rule(models.Model):
 
-    event = models.ForeignKey('events.Event', on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
     rules = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
