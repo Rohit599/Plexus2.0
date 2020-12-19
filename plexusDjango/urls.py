@@ -28,7 +28,7 @@ urlpatterns = [
         'admin/',
         admin.site.urls),
     path(
-        'registration',
+        'registration/',
         include('registration.urls', 'register_api')),
     path(
         'dashboard/',
